@@ -7,7 +7,7 @@
 	{
 		"service_worker": "event.js"
 	},
-	"permissions": ["tabs"],
+	"permissions": ["tabs","webRequest","declarativeNetRequest","declarativeNetRequestFeedback"],
 	"action": {
     "default_title": "This is CO2 detection extension",
     "default_popup": "extension_page.html",
