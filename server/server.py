@@ -26,20 +26,17 @@ model_clf = pickle.load(open("predictor.pk", "rb"))
 
 def fetch_meta_desc(url):
     response = urllib.request.urlopen(url)
-    soup = BeautifulSoup(response, 'html.parser',
-                         from_encoding=response.info().get_param('charset'))
+    soup = BeautifulSoup(response, 'html.parser', from_encoding=response.info().get_param('charset'))
     results = ''
     try:
         if soup.findAll("meta", attrs={"name": "description"}):
-            results += soup.find("meta",
-                                 attrs={"name": "description"}).get("content")
+            results += soup.find("meta", attrs={"name": "description"}).get("content")
     except:
         print("error in description")
 
     try:
         if soup.findAll("title"):
-            results += ' '
-            results += soup.find("title").string
+            results += ' ' + soup.find("title").string
     except:
         print("error in title")
     return results
@@ -60,9 +57,8 @@ def predict_value(str='https://makaan.com/'):
         test.toarray(), columns=tf_idf_vectorizer.get_feature_names())
     res = model_clf.predict(test)
     return arr[res[0]]
-    # return (test)
 
 
 # main driver function
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
