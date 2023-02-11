@@ -10,6 +10,10 @@ const EcoFriendlyWebsites = () => {
         setCategories(['All', 'Shopping', 'News', 'Social Media', 'Entertainment', 'Education', 'Others'])
     }, [])
 
+    useEffect(() => {
+        // Fetch data from API
+    }, [selectedCategory])
+
     return (
         <>
             <h1 className='title'><u>Eco Friendly Websites</u></h1>
