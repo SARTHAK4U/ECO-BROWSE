@@ -11,3 +11,8 @@ browser.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     // Update the HTML content of the extension
     document.getElementById("net-size").innerHTML = curr_tab +'  ---->  ' +netSize;
   });
+
+
+
+ 
+  

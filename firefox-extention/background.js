@@ -77,12 +77,20 @@ browser.webRequest.onBeforeRequest.addListener(
 
 
   // Listen for tab update events
-browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+  browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     // Check if the tab has reloaded
     if (changeInfo.status === "loading") {
       console.log("Tab reload detected! Tab ID:", tabId);
       curr_tab = JSON.stringify(tabId)
       localStorage.setItem(curr_tab, 0);
     }
+  });
+  
+
+  browser.runtime.onMessage.addListener(function(request) {
+    var data = request.data;
+    console.log('data from message passing : ',data)
+    localStorage.setItem('EcoBrowse-Ids', data);
+    // Do something with the data from the local storage
   });
   
