@@ -1,17 +1,50 @@
 <!-- index.html -->
-
 <html>
-  <head>
-  
-    <script src="background.js"></script>
-  </head>
-  <body>
-    <h1>Net Size of All Requests</h1>
-    <p id="net-size">0 bytes</p>
-    
-    <script src="updateHTML.js"></script>
-  </body>
 
+<head>
+	<script src="background.js"></script>
+	<!-- <script>
+		function install_notice() {
+			if (localStorage.getItem('install_time'))
+				return;
 
+			var now = new Date().getTime();
+			localStorage.setItem('install_time', now);
+			browser.tabs.create({ url: "tempserver/index.html" });
+		}
+		install_notice();
+	</script> -->
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+	<script src="background.js"></script>
+</head>
+
+<body style="padding: 3px;">
+	<div class="card" style="width: 18rem;text-align: center;margin: auto;">
+		<img class="card-img-top" src="icon.png" alt="Card image cap" width="50vh">
+		<div class="card-body">
+			<h5 class="card-title">EcoBrowse</h5>
+			<p class="card-text">Get to know the CO2 emissions caused by your internet activity.</p>
+		</div>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item" id="user-id">Open the Below Website to generate your ID</li>
+			<li class="list-group-item" id="bytes">Data In Bytes : </li>
+			<li class="list-group-item" id="emission">CO2 Emission : </li>
+			<li class="list-group-item" id="emission_rating">Emission Rating : </li>
+		</ul>
+		<div class="card-body">
+			<a href="http://localhost:3000/" class="card-link">EcoBrowse Analytics & Recommendations</a>
+		</div>
+	</div>
+
+	<script src="updateHTML.js"></script>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+</body>
 
 </html>

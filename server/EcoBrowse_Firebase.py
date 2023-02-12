@@ -2,6 +2,7 @@
 
 import firebase_admin
 from firebase_admin import credentials, firestore
+import urllib.parse
 
 cred = credentials.Certificate("ecobrowse_firebase_admin_sdk.json")
 firebase_admin.initialize_app(cred)
@@ -10,6 +11,12 @@ firebase_admin.initialize_app(cred)
 firestore_db = firestore.client()
 users_ref = firestore_db.collection(u'Users')
 websites_ref = firestore_db.collection(u'Websites')
+
+
+def extract_host(url):
+    parsed = urllib.parse.urlparse(url)
+    host = parsed.netloc
+    return host.replace(".", "_")
 
 
 # User Document Operations
@@ -31,13 +38,16 @@ def update_user_document(doc_id, key, value):
 
 def get_user_document(doc_id):
     doc_ref = users_ref.document(doc_id)
-    doc = doc_ref.get().to_dict()
-    return doc
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        return None
 
 
 # Website Document Operations
 def create_Website_document(Website_Data = {}):
-    Id = Website_Data["Domain"].replace(".", "_")
+    Id = extract_host(Website_Data["Domain"])
     doc_ref = websites_ref.document(Id)
     doc_ref.set(Website_Data)
     return doc_ref.id
@@ -51,24 +61,34 @@ def get_Website_document(doc_id):
     doc_id = doc_id.replace(".", "_")
     doc_ref = websites_ref.document(doc_id)
     doc = doc_ref.get()
-    return doc.to_dict()
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        return None
 
 
 # Helper Functions
-def add_Website_data(user_id, session_data):
+def add_Session_data(user_id, session_data):
     # ----- User Document Update -----
     doc_ref = users_ref.document(user_id)
     doc_dict = doc_ref.get().to_dict()
-    Domain = session_data["Path"].split("/")[0]
-    Domain = Domain.replace(".", "_")
+    
+    Domain = extract_host(session_data["Path"])
 
     # User Data Update
     user_overall_emission = doc_dict["Overall_Emission"] + session_data["Emission"]
     user_packets_lost = doc_dict["Packets_Lost"] + session_data["Packets_Lost"]
 
     # Website Data Update
+    if Domain not in doc_dict["Website_Data"]:
+        doc_dict["Website_Data"][Domain] = {
+            "Domain" : Domain,
+            "Average_Emission" : 0,
+            "Overall_Emission" : 0,
+            "Session_Data" : []
+        }
     doc_dict = doc_dict["Website_Data"][Domain]
-    doc_dict["Overall_Emission"] = doc_dict["Overall_Emission"] + session_data["Emission"]
+    doc_dict["Overall_Emission"] += session_data["Emission"]
     session_data_length = len(doc_dict["Session_Data"])
     doc_dict["Average_Emission"] = (doc_dict["Average_Emission"] * session_data_length + session_data["Emission"]) / (session_data_length + 1)
     doc_dict["Session_Data"].append(session_data)
@@ -111,8 +131,8 @@ session_data = {
 
 # user_id = create_User_document(User_Website_Data)
 # create_Website_document(Website_Data)
-user_id = "4TcmhkvmsbUnbkJdqdUU"
-add_Website_data(user_id, session_data)
+# user_id = "4TcmhkvmsbUnbkJdqdUU"
+# add_Session_data(user_id, session_data)
 
 # print(create_Website_document(Website_Data))
 # print(get_Website_document("google.com"))

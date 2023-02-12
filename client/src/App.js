@@ -5,7 +5,7 @@ import AppRoutes from "./Components/AppRoutes";
 import Navbar from "./Components/Navbar";
 
 function App() {
-	const Base_URL = 'http://localhost:5000';
+	const Base_URL = 'http://10.53.114.47:5000';
 
 	return (
 		<div className='App container'>
