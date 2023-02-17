@@ -3,7 +3,7 @@ const getEmissionRating = (emission) => {
 		return "Green"
 	} else if (emission < 0.5) {
 		return "Semi-Green"
-	} else if (emission < 1) {
+	} else {
 		return "Non-Green"
 	}
 }

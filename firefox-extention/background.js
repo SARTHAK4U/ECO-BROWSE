@@ -34,7 +34,7 @@ browser.webRequest.onCompleted.addListener(
 
 		console.log("The net size of  request is: " + netSize + " bytes");
 		localStorage.setItem(tabID, netSize);
-		localStorage.setItem(tabID + '_CO2e', (netSize * 11) / 1000000);
+		localStorage.setItem(tabID + '_CO2e', (netSize * 11) / 1000000000);
 		console.log('LOCAL : ', localStorage.getItem(tabID));
 
 
@@ -88,7 +88,7 @@ browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 	if (changeInfo.status === "complete") {
 		const userId = localStorage.getItem('EcoBrowse-Id');
 		const bytes = localStorage.getItem(curr_tab);
-		const CO2e = (bytes * 11) / 1000000;
+		const CO2e = (bytes * 11) / 1000000000;
 		const url = tab.url;
 		const timeStamp = tab.lastAccessed;
 		// Convert TimeStamp in milliseconds to Date and Time
@@ -118,6 +118,6 @@ browser.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 browser.runtime.onMessage.addListener(function (request) {
 	var data = request.data;
 	console.log('data from message passing : ', data)
-	localStorage.setItem('EcoBrowse-Ids', data);
+	localStorage.setItem('EcoBrowse-Id', data);
 	// Do something with the data from the local storage
 });

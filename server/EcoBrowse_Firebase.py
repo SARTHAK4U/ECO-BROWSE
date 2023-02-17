@@ -14,6 +14,8 @@ websites_ref = firestore_db.collection(u'Websites')
 
 
 def extract_host(url):
+    if 'localhost' in url:
+        return 'localhost'
     parsed = urllib.parse.urlparse(url)
     host = parsed.netloc
     return host.replace(".", "_")
