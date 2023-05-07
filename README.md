@@ -30,8 +30,3 @@ Step 6 : Developing browser extention which is done using HTML/CSS/JS and bootst
 
 `Corner cases like switching of tabs, reloading, browser exit etc has been covered by us`
 
-## Developers
-
-- [Akshay Jain](https://github.com/Akshay-jain22)
-- [Sarthak Jain](https://github.com/SARTHAK4U)
-- [Ishan Soni](https://github.com/IshanSoni1509)
